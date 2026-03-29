@@ -346,9 +346,7 @@ class InstallController(SubiquityController):
                 try:
                     await after_storage.run()
                 except subprocess.CalledProcessError as exc:
-                    raise AutoinstallUserSuppliedCmdError(
-                        cmd=exc.cmd, details=str(exc)
-                    )
+                    raise AutoinstallUserSuppliedCmdError(cmd=exc.cmd, details=str(exc))
 
     @with_context(description="installing system", level="INFO", childlevel="DEBUG")
     async def curtin_install(self, *, context, source):

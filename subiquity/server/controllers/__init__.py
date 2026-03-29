@@ -14,7 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from .ad import AdController
-from .cmdlist import AfterStorageController, EarlyController, ErrorController, LateController
+from .cmdlist import (
+    AfterStorageController,
+    EarlyController,
+    ErrorController,
+    LateController,
+)
 from .codecs import CodecsController
 from .debconf import DebconfController
 from .drivers import DriversController
