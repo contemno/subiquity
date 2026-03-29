@@ -573,6 +573,18 @@
         "timezone": {
             "type": "string"
         },
+        "after-storage-commands": {
+            "type": "array",
+            "items": {
+                "type": [
+                    "string",
+                    "array"
+                ],
+                "items": {
+                    "type": "string"
+                }
+            }
+        },
         "updates": {
             "type": "string",
             "enum": [

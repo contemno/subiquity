@@ -285,6 +285,7 @@ class SubiquityServer(Application):
         "Drivers",
         "OEM",
         "TimeZone",
+        "AfterStorage",
         "Install",
         "Updates",
         "Late",

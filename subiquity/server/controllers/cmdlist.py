@@ -137,6 +137,20 @@ class LateController(CmdListController):
         return env
 
 
+class AfterStorageController(CmdListController):
+    autoinstall_key = "after-storage-commands"
+
+    def __init__(self, app):
+        super().__init__(app)
+        self.syslog_id = app.log_syslog_id
+
+    def env(self):
+        env = super().env()
+        if self.app.base_model.target is not None:
+            env["TARGET_MOUNT_POINT"] = self.app.base_model.target
+        return env
+
+
 class ErrorController(CmdListController):
     autoinstall_key = "error-commands"
     cmd_check = False

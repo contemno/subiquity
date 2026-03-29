@@ -5,6 +5,7 @@ AGPLv
 API
 APIs
 balancer
+btrfs
 Charmhub
 CLI
 DCO
@@ -15,6 +16,7 @@ EBS
 EKS
 enablement
 favicon
+filesystem
 Furo
 Git
 GitHub
@@ -52,6 +54,7 @@ reST
 reStructuredText
 roadmap
 RTD
+squashfs
 subdirectories
 subfolders
 subtree

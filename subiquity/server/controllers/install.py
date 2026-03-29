@@ -333,6 +333,21 @@ class InstallController(SubiquityController):
         ) as child:
             await install_oem_metapackages(child)
 
+    async def run_after_storage_commands(self, context):
+        """Run user-supplied after-storage-commands if configured.
+
+        These run after the destination device has been partitioned, formatted,
+        and mounted but before the base system is extracted from squashfs.
+        This allows custom storage manipulation such as creating btrfs
+        subvolumes and adjusting mount points."""
+        after_storage = self.app.controllers.AfterStorage
+        if after_storage.cmds:
+            with context.child("after-storage-commands", "running after-storage"):
+                try:
+                    await after_storage.run()
+                except subprocess.CalledProcessError as exc:
+                    raise AutoinstallUserSuppliedCmdError(cmd=exc.cmd, details=str(exc))
+
     @with_context(description="installing system", level="INFO", childlevel="DEBUG")
     async def curtin_install(self, *, context, source):
         if self.app.opts.dry_run:
@@ -397,6 +412,7 @@ class InstallController(SubiquityController):
                     device_map_path=logs_dir / "device-map-format.json",
                 ),
             )
+            await self.run_after_storage_commands(context=context)
             if source is not None:
                 await run_curtin_step(
                     name="extract",
@@ -429,6 +445,7 @@ class InstallController(SubiquityController):
                 ),
                 source=source,
             )
+            await self.run_after_storage_commands(context=context)
             await run_curtin_step(
                 name="extract",
                 stages=["extract"],
