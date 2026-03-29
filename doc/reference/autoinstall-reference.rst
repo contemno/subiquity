@@ -1360,6 +1360,35 @@ shutdown examples:
      # shutdown instead of reboot
      shutdown: poweroff
 
+.. _ai-after-storage-commands:
+
+after-storage-commands
+~~~~~~~~~~~~~~~~~~~~~~
+
+* **type:** :ref:`command list<ai-command-lists>`
+* **default:** no commands
+* **can be interactive:** no
+
+Shell commands to run after the destination device has been partitioned, formatted, and mounted but before the base system is extracted (copied from squashfs). The commands are run in the installer environment with the target filesystem mounted at ``/target``. The environment variable ``TARGET_MOUNT_POINT`` is set to the target path.
+
+This hook is useful for custom storage manipulation that must happen before files are copied, such as creating btrfs subvolumes, adjusting mount points, or setting up ZFS datasets on the already-partitioned and formatted device.
+
+
+Example after-storage commands:
+
+.. code-block:: yaml
+
+   autoinstall:
+     # Create btrfs subvolumes and re-mount them before installation
+     after-storage-commands:
+       - btrfs subvolume create /target/@
+       - btrfs subvolume create /target/@home
+       - umount /target
+       - mount -o subvol=@ /dev/vda2 /target
+       - mkdir -p /target/home
+       - mount -o subvol=@home /dev/vda2 /target/home
+
+
 .. _ai-late-commands:
 
 late-commands

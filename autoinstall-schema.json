@@ -598,6 +598,18 @@
                 "reboot",
                 "poweroff"
             ]
+        },
+        "after-storage-commands": {
+            "type": "array",
+            "items": {
+                "type": [
+                    "string",
+                    "array"
+                ],
+                "items": {
+                    "type": "string"
+                }
+            }
         }
     },
     "required": [
